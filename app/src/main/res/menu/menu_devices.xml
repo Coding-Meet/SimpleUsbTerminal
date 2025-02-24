@@ -4,6 +4,6 @@
         android:id="@+id/refresh"
         android:title="Refresh Devices" />
     <item
-        android:id="@+id/baud_rate"
-        android:title="Baud rate" />
+        android:id="@+id/serial_setting"
+        android:title="Serial Setting" />
 </menu>
