@@ -57,7 +57,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
 
     private final Handler mainLooper;
     private final BroadcastReceiver broadcastReceiver;
-    private int deviceId, portNum, baudRate;
+    private int deviceId, portNum, baudRate, dataBits,stopBits, parity;
     private UsbSerialPort usbSerialPort;
     private SerialService service;
 
@@ -100,7 +100,11 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         setRetainInstance(true);
         deviceId = getArguments().getInt("device");
         portNum = getArguments().getInt("port");
-        baudRate = getArguments().getInt("baud");
+        baudRate = getArguments().getInt("baud", 19200);
+        dataBits = getArguments().getInt("dataBits", UsbSerialPort.DATABITS_8);
+        stopBits = getArguments().getInt("stopBits", UsbSerialPort.STOPBITS_1);
+        parity = getArguments().getInt("parity", UsbSerialPort.PARITY_NONE);
+
     }
 
     @Override
@@ -318,7 +322,8 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         try {
             usbSerialPort.open(usbConnection);
             try {
-                usbSerialPort.setParameters(baudRate, UsbSerialPort.DATABITS_8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
+//                usbSerialPort.setParameters(baudRate, UsbSerialPort.DATABITS_8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
+                usbSerialPort.setParameters(baudRate, dataBits,stopBits, parity);
             } catch (UnsupportedOperationException e) {
                 status("Setting serial parameters failed: " + e.getMessage());
             }
